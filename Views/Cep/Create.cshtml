@@ -1,0 +1,88 @@
+﻿@model ConsultaCEP.Models.CEP
+@{
+    ViewData["Title"] = "Inserir novo CEP";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">@ViewData["Title"]</h2>
+
+    <form method="get" asp-controller="Cep" asp-action="Create" class="mb-4">
+        <div class="input-group mb-3">
+            <input name="cepNumber" id="cepNumber" class="form-control"
+                   placeholder="Digite o CEP (somente números)"
+                   maxlength="8" pattern="\d{8}" required />
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        </div>
+        <div class="form-text text-muted">Apenas 8 dígitos numéricos. O ViaCep será consultado automaticamente.</div>
+    </form>
+
+    <form asp-controller="Cep" asp-action="Create" method="post" novalidate>
+        <div class="mb-3">
+            <label asp-for="CepNumber" class="form-label"></label>
+            <input asp-for="CepNumber" class="form-control" />
+            <span asp-validation-for="CepNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Logradouro" class="form-label"></label>
+            <input asp-for="Logradouro" class="form-control" />
+            <span asp-validation-for="Logradouro" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Complemento" class="form-label"></label>
+            <input asp-for="Complemento" class="form-control" />
+            <span asp-validation-for="Complemento" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Bairro" class="form-label"></label>
+            <input asp-for="Bairro" class="form-control" />
+            <span asp-validation-for="Bairro" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Localidade" class="form-label"></label>
+            <input asp-for="Localidade" class="form-control" />
+            <span asp-validation-for="Localidade" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Uf" class="form-label"></label>
+            <input asp-for="Uf" class="form-control" maxlength="2" />
+            <span asp-validation-for="Uf" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label asp-for="Unidade" class="form-label"></label>
+                <input asp-for="Unidade" class="form-control" />
+                <span asp-validation-for="Unidade" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Ibge" class="form-label"></label>
+                <input asp-for="Ibge" class="form-control" />
+                <span asp-validation-for="Ibge" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="Gia" class="form-label"></label>
+                <input asp-for="Gia" class="form-control" />
+                <span asp-validation-for="Gia" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Voltar</a>
+    </form>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-info mt-3">@ViewBag.Message</div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

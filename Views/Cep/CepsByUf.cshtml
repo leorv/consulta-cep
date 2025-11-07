@@ -1,0 +1,81 @@
+@model ConsultaCEP.Models.CepByUfViewModel
+
+@{
+    ViewData["Title"] = "CEPs por UF e Paginação";
+}
+
+<h1>CEP's por Unidade Federativa (UF)</h1>
+
+<hr />
+
+<form asp-action="CepsByUf" method="get">
+    <div class="form-group row">
+        <label for="selectedUf" class="col-sm-2 col-form-label">Selecione a UF:</label>
+        <div class="col-sm-4">
+            <select name="selectedUf" class="form-control" asp-items="@Model.UFs" onchange="this.form.submit()">
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+        <div class="col-sm-6">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.CEPsPaginados != null)
+{
+    if (Model.CEPsPaginados.Any())
+    {
+        <h2 class="mt-4">Resultados para @Model.SelectedUf</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>CEP</th>
+                    <th>Logradouro</th>
+                    <th>Bairro</th>
+                    <th>Localidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cep in Model.CEPsPaginados)
+                {
+                    <tr>
+                        <td>@cep.CepNumber</td>
+                        <td>@cep.Logradouro</td>
+                        <td>@cep.Bairro</td>
+                        <td>@cep.Localidade</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        var prevDisabled = !Model.CEPsPaginados.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.CEPsPaginados.HasNextPage ? "disabled" : "";
+
+
+        <div class="d-flex justify-content-between">
+            <a asp-action="CepsByUf" asp-route-pageNumber="@(Model.CEPsPaginados.PageIndex - 1)"
+                asp-route-selectedUf="@Model.SelectedUf" class="btn btn-outline-secondary @prevDisabled">
+                Página Anterior
+            </a>
+
+            <span>
+                Página @Model.CEPsPaginados.PageIndex de @Model.CEPsPaginados.TotalPages
+            </span>
+
+            <a asp-action="CepsByUf" asp-route-pageNumber="@(Model.CEPsPaginados.PageIndex + 1)"
+                asp-route-selectedUf="@Model.SelectedUf" class="btn btn-outline-secondary @nextDisabled">
+                Próxima Página
+            </a>
+        </div>
+
+    }
+    else
+    {
+        <div class="alert alert-warning mt-4" role="alert">
+            Nenhum CEP encontrado para a UF selecionada (@Model.SelectedUf).
+        </div>
+    }
+}

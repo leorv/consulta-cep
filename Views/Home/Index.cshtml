@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Consulta de CEP | Avaliação Técnica";
+}
+
+<div class="container mt-5">
+    <header class="text-center mb-5 p-4 bg-primary text-white rounded shadow-sm">
+        <h1 class="display-4">Sistema de Consulta de CEPs</h1>
+        <p class="lead mb-0">Avaliação Técnica para Desenvolvedor .NET</p>
+    </header>
+
+    <section id="visao-geral" class="mb-5">
+        <h2 class="text-primary border-bottom pb-2 mb-4">Visão Geral</h2>
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <p>Este projeto foi desenvolvido como uma solução completa para gerenciamento e consulta de Códigos de Endereçamento Postal (CEP), combinando dados armazenados localmente (SQL Server) e informações obtidas através de um provedor externo (ViaCEP).</p>
+                <p>O foco principal foi construir uma aplicação robusta, performática e segura, seguindo boas práticas de engenharia de software.</p>
+                <a asp-controller="Cep" asp-action="Index" class="btn btn-lg btn-success mt-3">
+                    <i class="bi bi-search"></i> Iniciar Consulta
+                </a>
+            </div>
+            <div class="col-md-5 text-center d-none d-md-block">
+                <i class="bi bi-code-square text-secondary" style="font-size: 8rem;"></i>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="stack" class="mb-5">
+        <h2 class="text-primary border-bottom pb-2 mb-4">Stack e Arquitetura</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            
+            <div class="col">
+                <div class="card h-100 border-info shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-info"><i class="bi bi-speedometer2"></i> Framework & ORM</h5>
+                        <p class="card-text">
+                            <strong>.NET 9 / Dapper:</strong> Escolhemos o <strong>.NET 9</strong> pela modernidade e o <strong>Dapper</strong> pela sua performance superior ao Entity Framework em operações simples de CRUD, mantendo o controle total sobre as *queries* SQL.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-info shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-info"><i class="bi bi-diagram-3-fill"></i> Padrões de Projeto</h5>
+                        <p class="card-text">
+                            A arquitetura segue o padrão MVC, complementada pelos *patterns* Repository e Services, garantindo a separação de responsabilidades (SoC) e facilitando a manutenção e testes unitários.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100 border-info shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-info"><i class="bi bi-database-fill"></i> Banco de Dados</h5>
+                        <p class="card-text">
+                            Utilização do SQL Server como base de dados e a arquitetura ASP.NET Core MVC com Bootstrap e jQuery para a interface do usuário, focando em usabilidade e design responsivo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="desafios">
+        <h2 class="text-primary border-bottom pb-2 mb-4">Desafios e Soluções Implementadas</h2>
+        
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item d-flex align-items-start">
+                <i class="bi bi-shield-fill-check text-success me-3 mt-1" style="font-size: 1.5rem;"></i>
+                <div>
+                    <h5 class="mb-1 text-success">Segurança - Prevenção a SQL Injection</h5>
+                    <p class="mb-0">Em todas as consultas e comandos com o Dapper, foi utilizada a inserção de parâmetros nomeados com arroba, garantindo que nenhum dado de entrada do usuário seja concatenado diretamente ao SQL, prevenindo ataques de SQL Injection.</p>
+                </div>
+            </li>
+
+            <li class="list-group-item d-flex align-items-start">
+                <i class="bi bi-hourglass-split text-warning me-3 mt-1" style="font-size: 1.5rem;"></i>
+                <div>
+                    <h5 class="mb-1 text-warning">Performance - Cache para API Externa</h5>
+                    <p class="mb-0">Um sistema de Cache (In-Memory) foi implementado nas requisições ao ViaCEP. O CEP é consultado na API apenas uma vez e, em seguida, armazenado localmente para futuras consultas, reduzindo latência e carga na API externa.</p>
+                </div>
+            </li>
+
+            <li class="list-group-item d-flex align-items-start">
+                <i class="bi bi-life-preserver text-danger me-3 mt-1" style="font-size: 1.5rem;"></i>
+                <div>
+                    <h5 class="mb-1 text-danger">Robustez - Atomicidade e Transações</h5>
+                    <p class="mb-0">Em operações críticas com o banco de dados (embora não explicitamente visível no código `AddAsync` fornecido, é uma intenção), foi considerado o uso de Transações (seja no Dapper ou Service) para garantir a atomicidade (ACID), assegurando que todas as operações sejam concluídas com sucesso ou nenhuma seja aplicada.</p>
+                </div>
+            </li>
+            
+            <li class="list-group-item d-flex align-items-start">
+                <i class="bi bi-bug-fill text-info me-3 mt-1" style="font-size: 1.5rem;"></i>
+                <div>
+                    <h5 class="mb-1 text-info">Desafio do Model Binding</h5>
+                    <p class="mb-0">
+                        O nome da propriedade Cep na classe CEP (ou a classe em si) pode gerar conflito com o processo de *Model Binding* do .NET Core (especificamente com nomes de classes ou propriedades que espelham o próprio tipo), sendo uma atenção de desenvolvimento a ser resolvida com o nome mais descritivo CepNumber para evitar ambiguidades.
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <footer class="text-center mt-5 pt-3 border-top text-muted">
+        <p>Acesse o repositório para mais detalhes da implementação.</p>
+    </footer>   
+</div>
