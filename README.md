@@ -6,6 +6,10 @@ Este projeto foi desenvolvido em 06/11/2025, como parte de uma Avaliação Técn
 
 O foco principal do desenvolvimento foi a **performance**, **segurança** e a adesão a **boas práticas de arquitetura** e design de software.
 
+### 📽️ Vídeo de demonstração:
+
+Para ver o vídeo, link do youtube: [Clique aqui](https://youtu.be/Kl570-tYJxY).
+
 ## 🛠️ Stack Tecnológico
 
 As seguintes tecnologias e padrões foram escolhidos para este projeto, com justificativas claras focadas em performance e manutenção:
@@ -46,3 +50,61 @@ O projeto segue um padrão claro, dividido por responsabilidades:
 | `/Cep/Index` | `GET`| Página principal de consulta de CEP. Permite consultar o CEP localmente ou via ViaCEP. |
 | `/Cep/CepsByUf` | `GET` | Consulta otimizada e paginada de todos os CEPs armazenados para uma UF específica. |
 | `/Cep/Create` | `GET` / `POST` | Formulário para cadastro manual de um novo CEP na base de dados. |
+
+## 💫 Como rodar o projeto
+
+Deverá ter instalado na máquina o .net 9.0 e SQL Server.
+
+Localmente, criar um banco de dados CEP. Criação da tabela no banco de dados:
+
+```sql
+USE [CEP]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CEP] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [cep]         CHAR (9)       NULL,
+    [logradouro]  NVARCHAR (500) NULL,
+    [complemento] NVARCHAR (500) NULL,
+    [bairro]      NVARCHAR (500) NULL,
+    [localidade]  NVARCHAR (500) NULL,
+    [uf]          CHAR (2)       NULL,
+    [unidade]     BIGINT         NULL,
+    [ibge]        INT            NULL,
+    [gia]         NVARCHAR (500) NULL
+);
+```
+
+Verifique a string de conexão de acordo com seu DB.
+
+Rodar o projeto: `dotnet run` apenas.
+
+## 📺 Telas
+
+### Home
+
+![Tela inicial - Home](./imgs/home.png)
+
+### Consulta de CEP
+
+![Consulta de CEPs](./imgs/consulta-cep.png)
+
+### Inserindo novo CEP
+
+![Inserção de novo CEP](./imgs/inserir-cep.png)
+
+### Consultando CEP por UF
+
+![Consultando CEP por UF](./imgs/cep-por-uf.png)
+
+## 👨🏽 Autor
+
+Leonardo Ruoso Vendramini - 2025
+
+![alt text](./imgs/image.png)
